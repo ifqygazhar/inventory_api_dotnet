@@ -1,0 +1,58 @@
+# .gitignore for .NET projects (macOS / VS Code / Rider)
+
+# Build outputs
+bin/
+obj/
+out/
+publish/
+app.publish/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.sln.iml
+*.user
+*.suo
+
+# NuGet
+*.nupkg
+.nuget/packages/
+
+# Runtime / debug / logs
+*.log
+TestResults/
+*.trx
+*.pid
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+*.db-journal
+
+# Coverage
+*.coverage
+*.coveragexml
+coverage/
+coverage*.json
+
+# Symbol / pdb / temp
+*.pdb
+*.obj
+*.ilk
+*.meta
+*.tmp
+
+# Secret / local config (keep secrets out of repo)
+secrets.json
+appsettings.*.Local.json
+appsettings.Development.json
+
+# Tools
+.vscode-test/
