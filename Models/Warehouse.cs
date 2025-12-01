@@ -8,4 +8,5 @@ public class Warehouse
     public string Name { get; set; } = string.Empty;
     [Required]
     public string Location { get; set; } = string.Empty;
+    public ICollection<Stock> Stocks { get; set; } = new HashSet<Stock>();
 }

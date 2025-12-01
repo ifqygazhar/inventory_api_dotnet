@@ -4,6 +4,7 @@ using Inventory.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory_dotnet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251201120305_UserManagementRole")]
+    partial class UserManagementRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("InventoryTransaction", b =>
@@ -61,7 +64,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InventoryTransactions", (string)null);
+                    b.ToTable("InventoryTransactions");
                 });
 
             modelBuilder.Entity("Product", b =>
@@ -94,7 +97,7 @@ namespace Inventory_dotnet.Migrations
                     b.HasIndex("Sku")
                         .IsUnique();
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Role", b =>
@@ -118,7 +121,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -188,7 +191,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Stocks", (string)null);
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("TransactionDetail", b =>
@@ -217,7 +220,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("TransactionDetails", (string)null);
+                    b.ToTable("TransactionDetails");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -258,7 +261,7 @@ namespace Inventory_dotnet.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("UserRole", b =>
@@ -273,7 +276,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Warehouse", b =>
@@ -295,7 +298,7 @@ namespace Inventory_dotnet.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouses", (string)null);
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("Product", b =>

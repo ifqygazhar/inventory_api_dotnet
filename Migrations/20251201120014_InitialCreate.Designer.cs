@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory_dotnet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251130145710_InitialCreate")]
+    [Migration("20251201120014_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -100,6 +100,74 @@ namespace Inventory_dotnet.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "",
+                            IsActive = true,
+                            Name = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "",
+                            IsActive = true,
+                            Name = "WarehouseManager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "",
+                            IsActive = true,
+                            Name = "WarehouseStaff"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "",
+                            IsActive = true,
+                            Name = "Purchasing"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "",
+                            IsActive = true,
+                            Name = "Sales"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "",
+                            IsActive = true,
+                            Name = "Auditor"
+                        });
+                });
+
             modelBuilder.Entity("Stock", b =>
                 {
                     b.Property<int>("Id")
@@ -155,6 +223,62 @@ namespace Inventory_dotnet.Migrations
                     b.ToTable("TransactionDetails");
                 });
 
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("AssignedWarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("Warehouse", b =>
                 {
                     b.Property<int>("Id")
@@ -197,7 +321,7 @@ namespace Inventory_dotnet.Migrations
                         .IsRequired();
 
                     b.HasOne("Warehouse", "Warehouse")
-                        .WithMany()
+                        .WithMany("Stocks")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -226,6 +350,25 @@ namespace Inventory_dotnet.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.HasOne("Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("Products");
@@ -237,6 +380,21 @@ namespace Inventory_dotnet.Migrations
                 });
 
             modelBuilder.Entity("Product", b =>
+                {
+                    b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Warehouse", b =>
                 {
                     b.Navigation("Stocks");
                 });

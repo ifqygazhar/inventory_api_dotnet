@@ -15,5 +15,5 @@ public class Product
     public int CategoryId { get; set; }
 
     public Category Category { get; set; } = null!;
-    public required ICollection<Stock> Stocks { get; set; } = [];
+    public ICollection<Stock> Stocks { get; set; } = new HashSet<Stock>();
 }
